@@ -1,0 +1,34 @@
+{
+  "name": "saffrona-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engr-sudiptto/Saffrona-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/engr-sudiptto/Saffrona-backend/issues"
+  },
+  "homepage": "https://github.com/engr-sudiptto/Saffrona-backend#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.0",
+    "multer": "^2.1.1",
+    "nodemon": "^3.1.14",
+    "stripe": "^22.2.1",
+    "validator": "^13.15.35"
+  }
+}
