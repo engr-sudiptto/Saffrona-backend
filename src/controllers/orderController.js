@@ -1,61 +1,55 @@
-import orderModel from "../models/orderModel.js";
-import userModel from "../models/userModel.js";
-import Stripe from "stripe";
+import orderModel from '../models/orderModel.js';
+import userModel from '../models/userModel.js';
+import Stripe from 'stripe';
 
-
-const stripr = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // placing user order for saffrona frontend
 const placeOrder = async (req, res) => {
-
-  const forntendUrl = "http://localhost:5173"
-  
+  const forntendUrl = 'http://localhost:5173';
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
       items: req.body.items,
       amount: req.body.amount,
-      address:req.body.address
-    })
-    await newOrder.save()
-    await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} })
-    
-    const lineItems = req.body.items.map((item) => ({
-      priceData: {
-        currency: "usd",
-          productData: {
-          name:item.name
+      address: req.body.address,
+    });
+    await newOrder.save();
+    await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+    const line_items = req.body.items.map(item => ({
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: item.name || 'Unknown Item',
         },
-        unitAmount: item.price,
+        unit_amount: item.price * 100,
       },
-      quantity:item.quantity
-    }))
+      quantity: item.quantity,
+    }));
 
-    lineItems.push({
-      priceData: {
-        currency: "usd",
-        productData: {
-          name:"Delivery Charges"
+    line_items.push({
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: 'Delivery Charges',
         },
-        unitAmount:2
+        unit_amount: 2 * 100,
       },
-      quantity:1
-    })
+      quantity: 1,
+    });
 
-    const session = await stripr.checkout.sessions.create({
-      lineItems: lineItems,
-      mode: "payment",
-      successUrl:`${forntendUrl}/verify?success=true&orderId=${newOrder._id}`,
-      cancelUrl:`${forntendUrl}/verify?success=false&orderId=${newOrder._id}`,
-    })
+    const session = await stripe.checkout.sessions.create({
+      line_items: line_items,
+      mode: 'payment',
+      success_url: `${forntendUrl}/verify?success=true&orderId=${newOrder._id}`,
+      cancel_url: `${forntendUrl}/verify?success=false&orderId=${newOrder._id}`,
+    });
 
-    res.json({success:true, sessionUrl: session.url})
+    res.json({ success: true, sessionUrl: session.url });
   } catch (error) {
-    console.log(error)
-    res.json({success:false, message:"Error"})
+    console.log(error);
+    res.json({ success: false, message: 'Error' });
   }
-}
+};
 
-
-export {placeOrder}
+export { placeOrder };
