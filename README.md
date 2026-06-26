@@ -23,12 +23,26 @@ This is the backend repository for the **Saffrona** application. It is built wit
 saffrona-backend/
 ├── node_modules
 ├── src 
-│     ├── config/            
-│     ├── controllers/      
-│     ├── models/             
-│     ├── routes/            
+│     ├──assete/
+│     ├── config/
+│         ├──db.js          
+│     ├── controllers/
+│         ├──cartController.js
+│         ├──foodController.js
+│         ├──ordercontroller.js
+│         ├──usercontroller.js
+│     ├── models/
+│         ├──foodModel.js
+│         ├──orderModel.js
+│         ├──userModel.js
+│     ├── routes/          
+│         ├──cartRoute.js
+│         ├──orderRoute.js
+│         ├──foodRoute.js
+│         ├──userRoute.js
 │     ├── middleware/        
-│     └── utils/
+│         ├──auth.js
+│     └── uploads/
 ├── .env                    
 ├── .gitignore   
 ├── package.json
