@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // placing user order for saffrona frontend
 const placeOrder = async (req, res) => {
-  const forntendUrl = 'http://localhost:5173';
+  const forntendUrl = process.env.FRONTEND_URL;
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
